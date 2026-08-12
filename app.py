@@ -14,7 +14,7 @@ from openai import OpenAI
 # PAGE CONFIG
 # ============================================================
 st.set_page_config(
-    page_title="Real vs Fake News Detector",
+    page_title="Verixa - AI News Verification",
     page_icon="📰",
     layout="wide",
     initial_sidebar_state="expanded",
@@ -282,7 +282,7 @@ st.markdown("""
         <rect x="12" y="36" width="32" height="3" rx="1.5" fill="#0f172a" opacity="0.65"/>
         <rect x="12" y="42" width="22" height="3" rx="1.5" fill="#0f172a" opacity="0.65"/>
     </svg>
-    <p class="main-title">Real vs Fake News Detector</p>
+    <p class="main-title">Verixa - AI News Verification</p>
 </div>
 """, unsafe_allow_html=True)
 st.markdown('<p class="subtitle">Paste an article, or upload one (or many) .txt files — verify live</p>', unsafe_allow_html=True)
