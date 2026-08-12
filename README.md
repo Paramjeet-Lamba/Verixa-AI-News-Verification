@@ -6,7 +6,7 @@ Verixa is an AI-powered news verification application built with **Streamlit and
 
 ### 🚀 Live Demo
 
-**Try Verixa:** https://real-vs-fake-news-detector-aiml.streamlit.app
+**Try Verixa:** https://verixa-ai-news-verification.streamlit.app
 
 ![Python](https://img.shields.io/badge/Python-3.11-3776AB?logo=python\&logoColor=white)
 ![Streamlit](https://img.shields.io/badge/Built%20with-Streamlit-FF4B4B?logo=streamlit\&logoColor=white)
