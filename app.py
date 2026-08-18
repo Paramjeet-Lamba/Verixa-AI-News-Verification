@@ -14,7 +14,7 @@ from openai import OpenAI
 # PAGE CONFIG
 # ============================================================
 st.set_page_config(
-    page_title="Verixa - AI News Verification",
+    page_title="Real vs Fake News Detector",
     page_icon="📰",
     layout="wide",
     initial_sidebar_state="expanded",
@@ -282,7 +282,7 @@ st.markdown("""
         <rect x="12" y="36" width="32" height="3" rx="1.5" fill="#0f172a" opacity="0.65"/>
         <rect x="12" y="42" width="22" height="3" rx="1.5" fill="#0f172a" opacity="0.65"/>
     </svg>
-    <p class="main-title">Verixa - AI News Verification</p>
+    <p class="main-title">Real vs Fake News Detector</p>
 </div>
 """, unsafe_allow_html=True)
 st.markdown('<p class="subtitle">Paste an article, or upload one (or many) .txt files — verify live</p>', unsafe_allow_html=True)
@@ -373,7 +373,9 @@ ACTIVE_PROVIDER = "Groq (free)"   # options: "Groq (free)", "Gemini (free)", "Op
 PROVIDERS = {
     "Groq (free)": {
         "base_url": "https://api.groq.com/openai/v1",
-        "default_model": "llama-3.3-70b-versatile",
+        # llama-3.3-70b-versatile was deprecated by Groq (announced 2026-06-17) —
+        # openai/gpt-oss-120b is Groq's recommended replacement.
+        "default_model": "openai/gpt-oss-120b",
         "secret_key": "GROQ_API_KEY",
     },
     "Gemini (free)": {
@@ -389,7 +391,22 @@ PROVIDERS = {
 }
 
 provider_cfg = PROVIDERS[ACTIVE_PROVIDER]
-model_name = provider_cfg["default_model"]
+
+def _load_model_name() -> str:
+    """
+    Model name, with an optional override so a provider deprecating/renaming
+    a model (as Groq did with llama-3.3-70b-versatile) doesn't require a
+    code change — just set MODEL_NAME in Secrets or as an env var.
+    Falls back to each provider's default_model above.
+    """
+    try:
+        if "MODEL_NAME" in st.secrets:
+            return st.secrets["MODEL_NAME"]
+    except Exception:
+        pass
+    return os.environ.get("MODEL_NAME", provider_cfg["default_model"])
+
+model_name = _load_model_name()
 
 def _load_api_key() -> str:
     """
